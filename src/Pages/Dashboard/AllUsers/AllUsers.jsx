@@ -91,9 +91,6 @@ const AllUsers = () => {
                     </button>
                   )}
                 </th>
-
-
-
               </tr>
             ))}
           </tbody>
