@@ -1,14 +1,29 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
+import useAxios from '../../hooks/useAxios';
+import { useEffect } from 'react';
 
 const PaymentSuccess = () => {
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams();
+    const sessionId = searchParams.get('session_id');
+
+    const axiosInstance = useAxios();
+
+    useEffect(()=> {
+        axiosInstance.post(`/success-payment?session_id=${sessionId}`)
+        .then(res=> {
+            console.log(res.data);
+            
+        })
+    }, [axiosInstance, sessionId])
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-base-200">
             <div className="card w-full max-w-md bg-base-100 shadow-xl p-10 text-center border-t-8 border-success">
                 <div className="text-success mb-6">
-                    {/* একটি বড় সাকসেস চেক আইকন */}
+                
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
