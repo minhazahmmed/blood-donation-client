@@ -1,16 +1,39 @@
-# React + Vite
+# 🩸 Blood Donation Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 🔗 [Live Site Link](https://your-live-link.com) | [Server Repository](https://github.com/your-username/server-repo)
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📝 Project Overview
+The **Blood Donation Application** is a comprehensive MERN stack platform designed to bridge the gap between blood donors and recipients. It facilitates a seamless process for creating donation requests, managing donor information, and processing financial contributions through integrated funding. 
 
-## React Compiler
+The application features a robust **Role-Based Access Control (RBAC)** system for Admins, Volunteers, and Donors, ensuring a secure and organized environment for all users.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Key Features
+- **Role-Based Dashboard**: Customized dashboards for Admin, Volunteer, and Donor roles.
+- **Dynamic Search**: Advanced filtering for finding donors by blood group, district, and upazila.
+- **Donation Management**: Real-time status tracking (Pending → In-progress → Done/Cancelled).
+- **Secure Authentication**: Firebase-based authentication with protected private routes.
+- **Financial Support**: Integrated **Stripe Payment Gateway** for organizational funding.
+- **Admin Controls**: User management (Block/Unblock) and role reassignment (Donor to Volunteer/Admin).
+- **Responsive UI**: Fully mobile-responsive design built with Tailwind CSS and DaisyUI.
+- **JWT Security**: Secure API endpoints using JSON Web Tokens.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
+- **Frontend**: React.js, Tailwind CSS, DaisyUI, React Router, Axios.
+- **Backend**: Node.js, Express.js.
+- **Database**: MongoDB.
+- **Authentication**: Firebase.
+- **Payment**: Stripe API.
+- **Deployment**: Vercel (Backend), Netlify/Firebase (Frontend).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📦 Key NPM Packages Used
+`stripe`, `axios`, `firebase`, `jsonwebtoken`, `react-router-dom`, `dotenv`, `tanstack/react-query`, `lucide-react`, `sweetalert2`.
+
+---
+
+## 👨‍💻 Developer Details
+**Name**: Minhaz Ahmmed  
+**Email**: minhazahmmed231@gmail.com  
+ **GitHub**: [Click Here](https://github.com/minhazahmmed)
+
