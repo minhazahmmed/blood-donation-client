@@ -76,7 +76,7 @@ const Aside = () => {
             </NavLink>
           )}
           <NavLink
-            to="/dashboard/manage-product"
+            to="/dashboard/my-request"
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-lg ${
                 isActive ? "bg-blue-600" : "hover:bg-slate-700"
@@ -84,10 +84,10 @@ const Aside = () => {
             }
           >
             <HomeIcon className="h-5 w-5" />
-            Manage Product
+            My Request
           </NavLink>
 
-          <NavLink
+          {/* <NavLink
             to="/dashboard/users"
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-lg ${
@@ -97,9 +97,9 @@ const Aside = () => {
           >
             <UsersIcon className="h-5 w-5" />
             Users
-          </NavLink>
+          </NavLink> */}
 
-          <NavLink
+          {/* <NavLink
             to="/dashboard/settings"
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-lg ${
@@ -109,7 +109,7 @@ const Aside = () => {
           >
             <Cog6ToothIcon className="h-5 w-5" />
             Settings
-          </NavLink>
+          </NavLink> */}
         </nav>
 
         <div className="p-4 border-t border-slate-700">
