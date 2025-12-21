@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
+import useAxios from '../../hooks/useAxios';
 
 const SearchRequest = () => {
     
@@ -11,8 +12,8 @@ const SearchRequest = () => {
     const[upazilas, setUpazilas] = useState([])
     const [districts, setDistricts] = useState([]);
     const [district, setDistrict] = useState("");
-   
-    const [upazila, setUpazila] = useState("");
+   const [upazila, setUpazila] = useState("");
+   const axiosInstance = useAxios();
   
     const { registerWithEmailPassword, setUser, googleSignin } =
       useContext(AuthContext);
@@ -29,12 +30,23 @@ const SearchRequest = () => {
         setDistricts(res.data.districts);
       });
     }, []);
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const bloodGroup = e.target.blood.value;
+
+        axiosInstance.get(`/search-request?bloodGroup=${bloodGroup}&district=${district}&upazila=${upazila}`)
+        .then(res=> {
+            console.log(res.data);
+            
+        })
+    }
   
 
     return (
     <div className="min-h-screen flex items-start justify-center bg-linear-to-br from-red-50 via-rose-100 to-red-200 px-4 pt-15">
             <div className=" bg-white rounded-3xl shadow-2xl border border-red-200">
-            <form action="" className="flex items-center gap-9 p-6 space-y-4">
+            <form onSubmit={handleSearch} className="flex items-center gap-9 p-6 space-y-4">
 
                 <div className='w-64'>
             <label className="text-sm font-semibold text-red-700">
