@@ -42,7 +42,7 @@ const Navbar = () => {
         
          
           <li>
-            <Link>Search</Link>
+            <Link to={'search'}>Search</Link>
           </li>
 
             <li>
@@ -60,7 +60,7 @@ const Navbar = () => {
         
          
           <li>
-            <Link>Search</Link>
+            <Link to={'/search'}>Search</Link>
           </li>
 
             <li>
