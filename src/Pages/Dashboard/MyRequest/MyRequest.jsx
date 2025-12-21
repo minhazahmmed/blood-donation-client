@@ -7,11 +7,13 @@ const MyRequest = () => {
     const axiosSecure = useAxiosSecure();
 
     useEffect(()=> {
-        axiosSecure.get('/my-request')
+        axiosSecure.get('/my-request?size=10&page=0')
         .then(res => {
-            console.log(res.data);
+            setMyRequests(res.data)
         })
     },[axiosSecure])
+    console.log(myRequests);
+    
 
     return (
         <div>
