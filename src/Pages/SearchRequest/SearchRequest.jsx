@@ -1,22 +1,21 @@
 import axios from 'axios';
 import React from 'react';
-import { useContext } from 'react';
+
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { AuthContext } from '../../Provider/AuthProvider';
+
 import useAxios from '../../hooks/useAxios';
 
 const SearchRequest = () => {
     
-  const [passwordError, setPasswordError] = useState("");
+  
     const[upazilas, setUpazilas] = useState([])
     const [districts, setDistricts] = useState([]);
     const [district, setDistrict] = useState("");
    const [upazila, setUpazila] = useState("");
    const axiosInstance = useAxios();
   
-    const { registerWithEmailPassword, setUser, googleSignin } =
-      useContext(AuthContext);
+ 
   
     useEffect(() => {
   

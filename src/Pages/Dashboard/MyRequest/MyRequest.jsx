@@ -8,6 +8,7 @@ const MyRequest = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const axiosSecure = useAxiosSecure();
 
+  console.log(setItemPerPage)
   
   useEffect(() => {
     axiosSecure

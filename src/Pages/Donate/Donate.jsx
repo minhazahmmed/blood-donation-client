@@ -2,12 +2,12 @@ import React from 'react';
 import useAxios from '../../hooks/useAxios';
 import { useContext } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
-import { useNavigate } from 'react-router';
+
 
 const Donate = () => {
     const axiosInstance = useAxios();
     const {user} = useContext(AuthContext);
-    const navigate = useNavigate();
+    
 
 
     const handleCheckout = (e)=> {
