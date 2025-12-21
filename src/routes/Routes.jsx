@@ -12,6 +12,7 @@ import AddRequest from "../Pages/Dashboard/AddRequest/AddRequest";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import PrivateRoute from "./PrivateRoute";
 import MyRequest from "../Pages/Dashboard/MyRequest/MyRequest";
+import Donate from "../Pages/Donate/Donate";
 
 
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
         {
           path: '/register',
           Component: Register,
+        },
+        {
+          path: '/donate',
+          Component: Donate,
         }
     ]
   },
