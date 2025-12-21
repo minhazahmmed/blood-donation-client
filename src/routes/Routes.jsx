@@ -15,6 +15,7 @@ import MyRequest from "../Pages/Dashboard/MyRequest/MyRequest";
 import Donate from "../Pages/Donate/Donate";
 import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 import PaymentCancelled from "../Pages/PaymentCancelled/PaymentCancelled";
+import SearchRequest from "../Pages/SearchRequest/SearchRequest";
 
 
 
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
         },
         {
           path: '/donate',
-          Component: Donate,
+          element: <PrivateRoute><Donate></Donate></PrivateRoute>
         },
         {
           path: '/payment-success',
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
         {
           path: '/payment-cancelled',
           Component: PaymentCancelled,
+        },
+        {
+          path: '/search',
+          Component: SearchRequest,
         },
     ]
   },
