@@ -16,6 +16,7 @@ import Donate from "../Pages/Donate/Donate";
 import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 import PaymentCancelled from "../Pages/PaymentCancelled/PaymentCancelled";
 import SearchRequest from "../Pages/SearchRequest/SearchRequest";
+import DonationRequests from "../Pages/DonationRequests/DonationRequests";
 
 
 
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
         {
           path: '/search',
           Component: SearchRequest,
+        },
+        {
+          path: '/donation-requests',
+          Component: DonationRequests,
         },
     ]
   },
