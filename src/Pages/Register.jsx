@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import { updateProfile } from "firebase/auth";
 import auth from "../firebase/firebase.config";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import { toast, ToastContainer } from "react-toastify";
 import { FaEye, FaEyeSlash, FaTint } from "react-icons/fa";
 import axios from "axios";
@@ -17,7 +17,8 @@ const Register = () => {
  
   const [upazila, setUpazila] = useState("");
 
-  const { registerWithEmailPassword, setUser, googleSignin } =
+  //If we add googleSignin, then we add it in below object googleSignin --> niche ei object er moddhe googleSignin likha ta add kore dibo jodi google sign in enable kori
+  const { registerWithEmailPassword, setUser,  } =
     useContext(AuthContext);
 
   useEffect(() => {
@@ -259,13 +260,13 @@ const handleSubmit = async (e) => {
             Register
           </button>
 
-          <button
+          {/* <button
             type="button"
             onClick={googleSignin}
             className="btn w-full border border-red-300"
           >
             <FcGoogle  className="text-xl" /> Continue with Google
-          </button>
+          </button> */}
 
 
            

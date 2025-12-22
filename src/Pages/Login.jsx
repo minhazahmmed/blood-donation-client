@@ -9,7 +9,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
 
-  const { loginWithEmailPassword, setUser, googleSignin } =
+  //If we add googleSignin, then we add it in below object googleSignin --> niche ei object er moddhe googleSignin likha ta add kore dibo jodi google sign in enable kori
+  const { loginWithEmailPassword, setUser } =
     useContext(AuthContext);
 
   const location = useLocation();
@@ -35,20 +36,20 @@ const Login = () => {
       });
   };
 
-  const handleGoogleSignin = () => {
-    googleSignin()
-      .then((result) => {
-        setUser(result.user);
-        toast.success("Login successful 🩸", {
-          position: "bottom-right",
-        });
-      })
-      .catch(() => {
-        toast.error("Login failed", {
-          position: "bottom-right",
-        });
-      });
-  };
+  // const handleGoogleSignin = () => {
+  //   googleSignin()
+  //     .then((result) => {
+  //       setUser(result.user);
+  //       toast.success("Login successful 🩸", {
+  //         position: "bottom-right",
+  //       });
+  //     })
+  //     .catch(() => {
+  //       toast.error("Login failed", {
+  //         position: "bottom-right",
+  //       });
+  //     });
+  // };
 
   const handleForget = () => {
     navigate(`/forget/${email}`);
@@ -124,16 +125,16 @@ const Login = () => {
             Login
           </button>
 
-          <div className="divider text-sm text-gray-400">OR</div>
+          {/* <div className="divider text-sm text-gray-400">OR</div> */}
 
           {/* Google */}
-          <button
+          {/* <button
             type="button"
             onClick={handleGoogleSignin}
             className="btn w-full border border-red-300"
           >
             <FcGoogle className="text-xl" /> Continue with Google
-          </button>
+          </button> */}
 
           {/* Register */}
           <p className="text-center text-sm mt-4">
