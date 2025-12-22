@@ -2,93 +2,116 @@ import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MyRequest = () => {
-  const [totalRequest, setTotalRequest] = useState(0);
-  const [myRequests, setMyRequests] = useState([]);
-  const [itemPerPage, setItemPerPage] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
-  const axiosSecure = useAxiosSecure();
+    const [totalRequest, setTotalRequest] = useState(0);
+    const [myRequests, setMyRequests] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemPerPage = 5;
+    const axiosSecure = useAxiosSecure();
 
-  console.log(setItemPerPage)
-  
-  useEffect(() => {
-    axiosSecure
-      .get(`/my-request?page=${currentPage - 1}&size=${itemPerPage}`)
-      .then((res) => {
-        setMyRequests(res.data.request);
-        setTotalRequest(res.data.totalRequest);
-      });
-  }, [axiosSecure, currentPage, itemPerPage]);
+    useEffect(() => {
+        axiosSecure.get(`/my-request?page=${currentPage - 1}&size=${itemPerPage}`)
+            .then((res) => {
+                setMyRequests(res.data.request);
+                setTotalRequest(res.data.totalRequest);
+            });
+    }, [currentPage, axiosSecure]);
 
-  const numberOfPages = Math.ceil(totalRequest / itemPerPage);
-  const pages = [
-    ...Array(numberOfPages)
-      .keys()
-      .map((e) => e + 1),
-  ];
+    const totalPages = Math.ceil(totalRequest / itemPerPage);
+    const pages = [...Array(totalPages).keys()].map(n => n + 1);
 
-//   console.log(pages);
+    const handlePrev = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
 
-  // console.log(myRequests);
-  // console.log(totalRequest);
-  // console.log(numberOfPages);
+    const handleNext = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    };
 
-  const handlePrev = () => {
-    if(currentPage>1){
-        setCurrentPage(currentPage - 1)
-    }
-  }
+    return (
+        <div className="max-w-6xl mx-auto px-4 sm:px-0 font-['Inter',sans-serif]">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-slate-800 mb-6 sm:mb-8 tracking-tight">
+                My <span className="text-red-700">Requests</span>
+            </h2>
+            
+            {/* Table Container with Horizontal Scroll */}
+            <div className="bg-white rounded-2xl sm:rounded-[40px] shadow-sm border border-gray-100 mb-8 sm:mb-10 overflow-hidden">
+                <div className="overflow-x-auto">
+                    {/* min-w-max নিশ্চিত করে যে টেবিলটি ছোট হবে না, বরং স্ক্রলযোগ্য হবে */}
+                    <table className="table w-full min-w-[700px]"> 
+                        <thead className="bg-gray-50/50">
+                            <tr className="text-slate-600 uppercase text-[13px] sm:text-[15px] font-bold tracking-widest">
+                                <th className="py-4 sm:py-6 px-4 sm:px-8">Recipient</th>
+                                <th>Hospital</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+<tbody>
+    {myRequests.map((req) => (
+        <tr key={req._id} className="border-b border-gray-50 hover:bg-red-50/30 transition-colors text-[13px] sm:text-[15px]">
+            <td className="py-4 sm:py-5 px-4 sm:px-8">
+                <span className="font-bold text-slate-700 block">{req.recipientName}</span>
+                <span className="text-red-500 text-[10px] sm:text-xs font-semibold">{req.bloodGroup}</span>
+            </td>
+            <td className="text-slate-600 font-medium">{req.hospitalName}</td>
+            <td className="font-bold text-slate-600">{req.donationDate}</td>
+            <td>
+                {/* ক্যাটাগরি অনুযায়ী ডাইনামিক কালার লজিক */}
+                <span className={`px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase ${
+                    req.donation_status === 'pending' ? 'bg-amber-100 text-amber-600' : 
+                    req.donation_status === 'inprogress' ? 'bg-blue-100 text-blue-600' : 
+                    req.donation_status === 'done' ? 'bg-green-100 text-green-600' : 
+                    req.donation_status === 'canceled' ? 'bg-rose-100 text-rose-600' : 
+                    'bg-gray-100 text-gray-600'
+                }`}>
+                    {req.donation_status}
+                </span>
+            </td>
+            <td>
+                <button className="btn btn-ghost btn-xs sm:btn-sm text-red-700 font-semibold hover:bg-red-100 rounded-lg">EDIT</button>
+            </td>
+        </tr>
+    ))}
+</tbody>
+                    </table>
+                </div>
+            </div>
 
-  const handleNext = ()=>{
-    if(currentPage < pages.length){
-        setCurrentPage(currentPage + 1)
-    }
-  }
+            {/* Pagination remains same */}
+            <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3 pb-10">
+                <button 
+                    onClick={handlePrev} 
+                    disabled={currentPage === 1}
+                    className="btn btn-xs sm:btn-sm btn-outline border-gray-200 text-slate-600 hover:bg-red-600 hover:border-red-600 hover:text-white disabled:opacity-30 rounded-xl px-3 sm:px-4"
+                >
+                    Prev
+                </button>
+                
+                <div className="flex gap-1 sm:gap-2">
+                    {pages.map((page) => (
+                        <button 
+                            key={page} 
+                            onClick={() => setCurrentPage(page)} 
+                            className={`btn btn-xs sm:btn-sm btn-circle border-none font-bold transition-all ${
+                                currentPage === page ? 'bg-red-600 text-white shadow-lg shadow-red-200' : 'bg-white shadow-sm text-slate-600 hover:bg-red-50'
+                            }`}
+                        >
+                            {page}
+                        </button>
+                    ))}
+                </div>
 
-return (
- 
-  <div className="flex flex-col min-h-[calc(100vh)] justify-between">
-    
-
-    <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
-      <table className="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Hospital Name</th>
-            <th>Blood Group</th>
-          </tr>
-        </thead>
-        <tbody>
-          {myRequests.map((request, index) => (
-            <tr key={index}>
-       
-              <th>{(currentPage - 1) * itemPerPage + (index + 1)}</th>
-              <td>{request.recipientName}</td>
-              <td>{request.hospitalName}</td>
-              <td>{request.bloodGroup}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-
-   
-    <div className="flex flex-wrap justify-center items-center gap-3 mt-10 mb-10">
-      <button onClick={handlePrev} className="btn">Prev</button>
-      {pages.map((page) => (
-        <button
-          key={page}
-          className={`btn ${page === currentPage ? "bg-[#0543ee] text-white" : ""}`}
-          onClick={() => setCurrentPage(page)}
-        >
-          {page}
-        </button>
-      ))}
-      <button onClick={handleNext} className="btn">Next</button>
-    </div>
-  </div>
-);
+                <button 
+                    onClick={handleNext} 
+                    disabled={currentPage === totalPages}
+                    className="btn btn-xs sm:btn-sm btn-outline border-gray-200 text-slate-600 hover:bg-red-600 hover:border-red-600 hover:text-white disabled:opacity-30 rounded-xl px-3 sm:px-4"
+                >
+                    Next
+                </button>
+            </div>
+        </div>
+    );
 };
 
 export default MyRequest;
