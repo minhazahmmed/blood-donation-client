@@ -36,7 +36,7 @@ const MyRequest = () => {
             {/* Table Container with Horizontal Scroll */}
             <div className="bg-white rounded-2xl sm:rounded-[40px] shadow-sm border border-gray-100 mb-8 sm:mb-10 overflow-hidden">
                 <div className="overflow-x-auto">
-                    {/* min-w-max নিশ্চিত করে যে টেবিলটি ছোট হবে না, বরং স্ক্রলযোগ্য হবে */}
+                   
                     <table className="table w-full min-w-[700px]"> 
                         <thead className="bg-gray-50/50">
                             <tr className="text-slate-600 uppercase text-[13px] sm:text-[15px] font-bold tracking-widest">

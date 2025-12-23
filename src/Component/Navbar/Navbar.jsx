@@ -68,12 +68,14 @@ const Navbar = () => {
               </div>
             </label>
             <ul tabIndex={0} className="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-gray-100">
-              <li className="px-4 py-2 font-bold text-red-600 border-b border-gray-100 mb-1">
-                {user?.displayName || "User"}
-              </li>
-              <li><Link to="/dashboard">Dashboard</Link></li>
-              <li><button onClick={handleLogout} className="text-red-500">Logout</button></li>
-            </ul>
+  <li className="px-4 py-2 font-bold text-red-600 border-b border-gray-100 mb-1">
+    {user?.displayName || "User"}
+  </li>
+  <li><Link to="/dashboard">Dashboard</Link></li>
+  {/* নতুন বাটন */}
+  <li><Link to="/dashboard/profile">Update Profile</Link></li> 
+  <li><button onClick={handleLogout} className="text-red-500">Logout</button></li>
+</ul>
           </div>
         ) : (
           <div className="flex gap-3">

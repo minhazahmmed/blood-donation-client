@@ -19,7 +19,7 @@ const SearchRequest = () => {
         const bloodGroup = e.target.blood.value;
 
        
-        axios.get(`http://localhost:5000/search-donor?bloodGroup=${encodeURIComponent(bloodGroup)}&district=${district}&upazila=${upazila}`)
+        axios.get(`${import.meta.env.VITE_API_URL}/search-donor?bloodGroup=${encodeURIComponent(bloodGroup)}&district=${district}&upazila=${upazila}`)
             .then(res => {
                 setDonors(res.data);
                 setSearched(true);

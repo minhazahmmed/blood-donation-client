@@ -10,7 +10,7 @@ const DonationRequests = () => {
 
     useEffect(() => {
         
-        axios.get('http://localhost:5000/all-pending-requests')
+        axios.get(`${import.meta.env.VITE_API_URL}/all-pending-requests`)
             .then(res => {
                 setRequests(res.data);
                 setLoading(false);

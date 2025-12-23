@@ -11,7 +11,7 @@ const RequestDetails = () => {
     const [request, setRequest] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/request/${id}`)
+        axios.get(`${import.meta.env.VITE_API_URL}/request/${id}`)
             .then(res => setRequest(res.data))
             .catch(err => console.error(err));
     }, [id]);
@@ -28,7 +28,7 @@ const RequestDetails = () => {
     try {
        
         const response = await axios.patch(
-            `http://localhost:5000/requests/donate/${id}`, 
+            `${import.meta.env.VITE_API_URL}/requests/donate/${id}`, 
             updateInfo,
             {
                 headers: {

@@ -3,6 +3,8 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  updateProfile,
+  signOut,
 } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.config";
@@ -22,55 +24,70 @@ const AuthProvider = ({ children }) => {
 
   // Register
   const registerWithEmailPassword = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // Login
   const loginWithEmailPassword = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // Google Login
   const googleSignin = () => {
+    setLoading(true);
     return signInWithPopup(auth, provider);
   };
 
- 
+  // Logout 
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
+  };
+
+  // Update Profile
+  const updateUserProfile = (name, photo) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    });
+  };
+
+  // এই ফাংশনটি ইউজার ডাটাবেজ থেকে রোল এবং স্ট্যাটাস আনবে
+  const fetchUserInfo = async (email) => {
+    try {
+      setRoleLoading(true);
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/role/${email}`
+      );
+      setRole(res.data.role || "donor"); // ডিফল্ট ভ্যালু হিসেবে donor সেট করা
+      setUserStatus(res.data.status || "active"); // ডিফল্ট ভ্যালু হিসেবে active সেট করা
+    } catch (error) {
+      console.error("User info fetch error", error);
+    } finally {
+      setRoleLoading(false);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
 
       if (currentUser?.email) {
-        try {
-          setRoleLoading(true);
-
-          const res = await axios.get(
-            `http://localhost:5000/users/role/${currentUser.email}`
-          );
-
-          setRole(res.data.role);
-          setUserStatus(res.data.status);
-        } catch (error) {
-          console.error("User info fetch error", error);
-          setRole("");
-          setUserStatus("");
-        } finally {
-          setRoleLoading(false);
-        }
+        // ডাটাবেজ থেকে রোল ও স্ট্যাটাস ফেচ করা
+        await fetchUserInfo(currentUser.email);
       } else {
         setRole("");
         setUserStatus("");
         setRoleLoading(false);
       }
-
       setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
-
-  console.log(user)
   const authData = {
     user,
     role,
@@ -80,7 +97,10 @@ const AuthProvider = ({ children }) => {
     registerWithEmailPassword,
     loginWithEmailPassword,
     googleSignin,
+    logOut,
     setUser,
+    updateUserProfile,
+    fetchUserInfo, // এটি এক্সপোর্ট করা হলো যাতে রেজিস্টার পেজ থেকে সরাসরি কল করা যায়
   };
 
   return (

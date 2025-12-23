@@ -18,6 +18,7 @@ import PaymentCancelled from "../Pages/PaymentCancelled/PaymentCancelled";
 import SearchRequest from "../Pages/SearchRequest/SearchRequest";
 import DonationRequests from "../Pages/DonationRequests/DonationRequests";
 import RequestDetails from "../Pages/RequestDetails/RequestDetails";
+import UpdateProfile from "../Pages/UpdateProfile/UpdateProfile";
 
 
 
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: 'my-request',
         Component: MyRequest,
+      },
+      {
+        path: 'profile',
+        Component: UpdateProfile,
       },
     ]
 

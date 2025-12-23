@@ -5,21 +5,19 @@ import { signOut } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
 import { 
     Squares2X2Icon, PlusIcon, ClipboardDocumentListIcon, 
-    UsersIcon, ArrowLeftStartOnRectangleIcon 
+    UsersIcon, ArrowLeftStartOnRectangleIcon, HomeIcon 
 } from "@heroicons/react/24/solid";
 
 const Aside = () => {
   const { role, user } = useContext(AuthContext);
 
-  // মেনু অপশনে ক্লিক করলে ড্রয়ার বন্ধ করার ফাংশন
   const closeDrawer = () => {
     const drawerCheckbox = document.getElementById("dashboard-drawer");
-    if (drawerCheckbox) {
-      drawerCheckbox.checked = false;
-    }
+    if (drawerCheckbox) { drawerCheckbox.checked = false; }
   };
 
   const navLinks = [
+    { name: "Home", path: "/", icon: <HomeIcon className="h-5 w-5" />, show: true }, // মেইন নেভিগেশন
     { name: "Dashboard", path: "/dashboard", icon: <Squares2X2Icon className="h-5 w-5" />, show: true },
     { name: "My Request", path: "/dashboard/my-request", icon: <ClipboardDocumentListIcon className="h-5 w-5" />, show: role === "donor" },
     { name: "Add Request", path: "/dashboard/add-request", icon: <PlusIcon className="h-5 w-5" />, show: role === "donor" },
@@ -31,38 +29,42 @@ const Aside = () => {
       <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
       <div className="menu p-0 w-64 sm:w-72 min-h-full bg-red-50 border-r border-red-100 text-slate-800">
         
-        {/* Logo Section */}
         <div className="p-6 sm:p-8 border-b border-red-100 mb-4 bg-white/50 text-center sm:text-left">
             <span className="text-2xl sm:text-4xl font-bold tracking-tight text-gray-800 block">
               Blood<span className="text-red-700">Flow</span>
             </span>
-          <p className="text-[10px] sm:text-[11px] text-red-400 font-bold uppercase tracking-widest mt-1">Management System</p>
+            <p className="text-[10px] sm:text-[11px] text-red-400 font-bold uppercase tracking-widest mt-1">Management System</p>
         </div>
 
-        {/* User Profile Info */}
         <div className="px-4 sm:px-6 mb-6 sm:mb-8 flex items-center gap-3 sm:gap-4">
-            <img src={user?.photoURL} className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl object-cover border-2 border-white shadow-md" alt="" />
+            <img 
+              src={user?.photoURL || "https://i.ibb.co/mJR6S7q/default-user.png"} 
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl object-cover border-2 border-white shadow-md" 
+              alt="Profile" 
+            />
             <div className="truncate">
-                <p className="text-[14px] sm:text-[16px] font-bold text-slate-800 tracking-tight ">{user?.displayName}</p>
-                <p className="text-[10px] sm:text-[12px] bg-red-100 text-red-600 px-2 py-0.5 rounded-md font-semibold uppercase inline-block ">{role}</p>
+                <p className="text-[14px] sm:text-[16px] font-bold text-slate-800 tracking-tight ">
+                  {user?.displayName || "User"}
+                </p>
+                <p className="text-[10px] sm:text-[12px] bg-red-100 text-red-600 px-2 py-0.5 rounded-md font-semibold uppercase inline-block ">
+                  {role}
+                </p>
             </div>
         </div>
 
-        {/* Nav Links */}
         <div className="px-3 sm:px-4 space-y-1.5 flex-1">
           {navLinks.map((link) => link.show && (
             <NavLink 
               key={link.path} 
               to={link.path} 
               end={link.path === "/dashboard"}
-              onClick={closeDrawer} // এখানে ফাংশনটি কল করা হয়েছে
+              onClick={closeDrawer}
               className={({ isActive }) => `flex items-center gap-3 sm:gap-4 px-4 py-2.5 sm:py-3 rounded-2xl font-bold text-[14px] sm:text-base transition-all ${isActive ? "bg-red-700 text-white shadow-lg shadow-red-200" : "hover:bg-red-100/50 text-slate-500 hover:text-red-600"}`}>
               {link.icon} {link.name}
             </NavLink>
           ))}
         </div>
 
-        {/* Logout Bottom */}
         <div className="p-4 sm:p-6 border-t border-red-100">
           <button onClick={() => { signOut(auth); closeDrawer(); }} className="flex items-center gap-3 sm:gap-4 w-full px-4 py-2.5 sm:py-3 rounded-2xl font-bold text-[14px] sm:text-base text-slate-500 hover:text-red-700 hover:bg-red-100 transition-all">
             <ArrowLeftStartOnRectangleIcon className="h-5 w-5" /> Logout
