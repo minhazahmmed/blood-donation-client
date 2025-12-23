@@ -6,7 +6,7 @@ import auth from "../../firebase/firebase.config";
 import { 
     Squares2X2Icon, PlusIcon, ClipboardDocumentListIcon, 
     UsersIcon, ArrowLeftStartOnRectangleIcon, HomeIcon,
-    ChartBarIcon // নতুন আইকন
+    ChartBarIcon, DocumentTextIcon, UserCircleIcon
 } from "@heroicons/react/24/solid";
 
 const Aside = () => {
@@ -19,12 +19,23 @@ const Aside = () => {
 
   const navLinks = [
     { name: "Home", path: "/", icon: <HomeIcon className="h-5 w-5" />, show: true },
-    { name: "Dashboard", path: "/dashboard", icon: <Squares2X2Icon className="h-5 w-5" />, show: true },
-    // শুধুমাত্র অ্যাডমিনদের জন্য অ্যাডমিন হোম লিঙ্ক
+    
+    // ডোনারদের জন্য মেইন ড্যাশবোর্ড লিঙ্ক
+    { name: "Dashboard", path: "/dashboard", icon: <Squares2X2Icon className="h-5 w-5" />, show: role === "donor" },
+
+    // অ্যাডমিনদের জন্য নির্দিষ্ট লিঙ্কসমূহ
     { name: "Admin Home", path: "/dashboard/admin-home", icon: <ChartBarIcon className="h-5 w-5" />, show: role === "admin" },
-    { name: "My Request", path: "/dashboard/my-request", icon: <ClipboardDocumentListIcon className="h-5 w-5" />, show: role === "donor" || role === "admin" },
-    { name: "Add Request", path: "/dashboard/add-request", icon: <PlusIcon className="h-5 w-5" />, show: role === "donor" || role === "admin" },
     { name: "All Users", path: "/dashboard/all-users", icon: <UsersIcon className="h-5 w-5" />, show: role === "admin" },
+    
+    // অ্যাডমিন ও ভলান্টিয়ারদের জন্য
+    { name: "All Donation Request", path: "/dashboard/all-donation-requests", icon: <DocumentTextIcon className="h-5 w-5" />, show: role === "admin" || role === "volunteer" },
+
+    // শুধুমাত্র ডোনারদের জন্য পার্সোনাল রিকোয়েস্ট ম্যানেজমেন্ট
+    { name: "My Request", path: "/dashboard/my-request", icon: <ClipboardDocumentListIcon className="h-5 w-5" />, show: role === "donor" },
+    { name: "Add Request", path: "/dashboard/add-request", icon: <PlusIcon className="h-5 w-5" />, show: role === "donor" },
+    
+    // সবার জন্য প্রোফাইল লিঙ্ক
+    { name: "Profile", path: "/dashboard/profile", icon: <UserCircleIcon className="h-5 w-5" />, show: true },
   ];
 
   return (
@@ -68,7 +79,7 @@ const Aside = () => {
           ))}
         </div>
 
-        <div className="p-4 sm:p-6 border-t border-red-100">
+        <div className="p-4 sm:p-6 border-t border-red-100 mt-auto">
           <button onClick={() => { signOut(auth); closeDrawer(); }} className="flex items-center gap-3 sm:gap-4 w-full px-4 py-2.5 sm:py-3 rounded-2xl font-bold text-[14px] sm:text-base text-slate-500 hover:text-red-700 hover:bg-red-100 transition-all">
             <ArrowLeftStartOnRectangleIcon className="h-5 w-5" /> Logout
           </button>
