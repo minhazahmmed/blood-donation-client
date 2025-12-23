@@ -1,10 +1,9 @@
-import { createBrowserRouter, Navigate } from "react-router";
+import { createBrowserRouter } from "react-router";
 import Home from "../Pages/Home/Home";
 import RootLayout from "../RootLayout/RootLayout";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import DashBoardLayout from "../Dashboard Layout/DashBoardLayout";
-import MainDashboard from "../Pages/Dashboard/MainDashboard/MainDashboard";
 import AdminHome from "../Pages/Dashboard/AdminHome/AdminHome"; 
 import AddRequest from "../Pages/Dashboard/AddRequest/AddRequest";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
@@ -18,24 +17,17 @@ import DonationRequests from "../Pages/DonationRequests/DonationRequests";
 import RequestDetails from "../Pages/RequestDetails/RequestDetails";
 import UpdateProfile from "../Pages/UpdateProfile/UpdateProfile";
 import AllDonationRequests from "../Pages/Dashboard/AllDonationRequests/AllDonationRequests";
-import { useContext } from "react";
-import { AuthContext } from "../Provider/AuthProvider";
+import DashboardIndex from "./DashboardIndex";
 
-// রিডাইরেকশন কম্পোনেন্ট
-const DashboardIndex = () => {
-    const { role, loading } = useContext(AuthContext);
-    if (loading) return null; 
-    return role === "admin" ? <Navigate to="/dashboard/admin-home" replace /> : <MainDashboard />;
-};
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     children: [
-      { path: "/", Component: Home },
-      { path: "/login", Component: Login },
-      { path: "/register", Component: Register },
+      { path: "/", element: <Home /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
       {
         path: "/donate",
         element: (
@@ -44,9 +36,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      { path: "/payment-success", Component: PaymentSuccess },
-      { path: "/payment-cancelled", Component: PaymentCancelled },
-      { path: "/search", Component: SearchRequest },
+      { path: "/payment-success", element: <PaymentSuccess /> },
+      { path: "/payment-cancelled", element: <PaymentCancelled /> },
+      { path: "/search", element: <SearchRequest /> },
       {
         path: "/request-details/:id",
         element: (
@@ -55,7 +47,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      { path: "/donation-requests", Component: DonationRequests },
+      { path: "/donation-requests", element: <DonationRequests /> },
     ],
   },
   {
@@ -68,7 +60,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true, 
-        element: <DashboardIndex />, // রোল অনুযায়ী ডাইনামিক রিডাইরেক্ট
+        element: <DashboardIndex />, 
       },
       {
         path: "admin-home",
@@ -80,19 +72,19 @@ const router = createBrowserRouter([
       },
       {
         path: "add-request",
-        Component: AddRequest,
+        element: <AddRequest />,
       },
       {
         path: "all-users",
-        Component: AllUsers,
+        element: <AllUsers />,
       },
       {
         path: "my-request",
-        Component: MyRequest,
+        element: <MyRequest />,
       },
       {
         path: "profile",
-        Component: UpdateProfile,
+        element: <UpdateProfile />,
       },
     ],
   },
