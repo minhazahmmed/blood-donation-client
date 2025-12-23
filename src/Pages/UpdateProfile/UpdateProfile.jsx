@@ -16,13 +16,18 @@ const UpdateProfile = () => {
     const [upazilas, setUpazilas] = useState([]);
 
     useEffect(() => {
+        // ডিস্ট্রিক্ট এবং উপজেলা লোড করা
         axios.get("/district.json").then((res) => setDistricts(res.data.districts));
         axios.get("/upazila.json").then((res) => setUpazilas(res.data.upazilas));
 
+        // ইউজার ডাটা ফেচ করা
         if (user?.email) {
+            setLoading(true);
             axiosSecure.get(`/user/${user?.email}`)
                 .then(res => {
-                    reset(res.data);
+                    if (res.data) {
+                        reset(res.data);
+                    }
                     setLoading(false);
                 })
                 .catch(err => {
@@ -30,14 +35,14 @@ const UpdateProfile = () => {
                     setLoading(false);
                 });
         }
-    }, [user, axiosSecure, reset]);
+    }, [user?.email, axiosSecure, reset]); // dependencies ঠিক করা হয়েছে
 
     const onSubmit = async (data) => {
         setIsUpdating(true);
         try {
             let photoURL = data.photoURL; 
 
-            // ছবি আপলোড লজিক
+            // ইমেজ আপলোড লজিক
             if (data.image && data.image[0]) {
                 const imgData = new FormData();
                 imgData.append("image", data.image[0]);
@@ -50,17 +55,10 @@ const UpdateProfile = () => {
                 }
             }
 
-            // ১. ফায়ারবেজ প্রোফাইল আপডেট (সাইডবারের জন্য)
+            // ১. ফায়ারবেজ প্রোফাইল আপডেট
             await updateUserProfile(data.name, photoURL);
             
-            // ২. লোকাল স্টেট আপডেট যাতে রিলোড ছাড়া চেঞ্জ দেখা যায়
-            setUser((prevUser) => ({
-                ...prevUser,
-                displayName: data.name,
-                photoURL: photoURL
-            }));
-
-            // ৩. ব্যাকএন্ড ডাটাবেস আপডেট
+            // ২. ব্যাকএন্ড ডাটাবেস আপডেট
             const updatedDoc = {
                 name: data.name,
                 photoURL: photoURL,
@@ -71,7 +69,14 @@ const UpdateProfile = () => {
 
             const res = await axiosSecure.patch(`/user/update/${user?.email}`, updatedDoc);
             
-            if (res.data.modifiedCount > 0 || res.status === 200) {
+            // ৩. লোকাল স্টেট আপডেট (সফলভাবে ডাটাবেজ আপডেট হওয়ার পর)
+            if (res.data.modifiedCount > 0 || res.data.matchedCount > 0) {
+                setUser((prevUser) => ({
+                    ...prevUser,
+                    displayName: data.name,
+                    photoURL: photoURL
+                }));
+
                 Swal.fire({
                     icon: "success",
                     title: "Profile Updated!",
@@ -81,17 +86,26 @@ const UpdateProfile = () => {
                 });
             }
         } catch (error) {
-            console.error(error);
-            Swal.fire({ icon: "error", title: "Update Failed", text: "Something went wrong!" });
+            console.error("Update Error:", error);
+            Swal.fire({ 
+                icon: "error", 
+                title: "Update Failed", 
+                text: error.response?.data?.message || "Something went wrong!" 
+            });
         } finally {
             setIsUpdating(false);
         }
     };
 
-    if (loading) return <div className="text-center mt-20 text-red-600 font-bold">Loading Profile...</div>;
+    if (loading) return (
+        <div className="flex justify-center items-center min-h-screen">
+            <span className="loading loading-spinner loading-lg text-red-600"></span>
+        </div>
+    );
 
     return (
         <div className="max-w-4xl mx-auto p-4 sm:p-10">
+            {/* আপনার বাকি ডিজাইন কোড এখানে থাকবে */}
             <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
                 <div className="bg-red-700 p-6 text-white text-center">
                     <h2 className="text-2xl font-bold">Edit Profile</h2>
@@ -106,8 +120,9 @@ const UpdateProfile = () => {
                         </div>
                         <div className="form-control">
                             <label className="label text-slate-700 font-medium">Email (Not Changeable)</label>
-                            <input value={user?.email} readOnly type="email" className="input input-bordered bg-gray-100 text-gray-400 rounded-xl cursor-not-allowed" />
+                            <input value={user?.email || ""} readOnly type="email" className="input input-bordered bg-gray-100 text-gray-400 rounded-xl cursor-not-allowed" />
                         </div>
+                        {/* ... বাকি ইনপুট ফিল্ডগুলো ... */}
                         <div className="form-control">
                             <label className="label text-slate-700 font-medium">Update Profile Photo</label>
                             <input {...register("image")} type="file" className="file-input file-input-bordered file-input-error w-full rounded-xl" />
@@ -142,7 +157,7 @@ const UpdateProfile = () => {
                     </div>
                     <div className="pt-6 border-t border-gray-100 flex items-center gap-4">
                         <button type="submit" disabled={isUpdating} className="btn bg-red-700 hover:bg-red-800 text-white w-full md:w-auto px-12 rounded-xl border-none shadow-lg shadow-red-200">
-                            {isUpdating ? "Updating..." : "Save Profile"}
+                            {isUpdating ? <span className="loading loading-spinner"></span> : "Save Profile"}
                         </button>
                     </div>
                 </form>
