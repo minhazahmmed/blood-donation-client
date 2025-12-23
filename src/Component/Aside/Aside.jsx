@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
 import { 
     Squares2X2Icon, PlusIcon, ClipboardDocumentListIcon, 
-    UsersIcon, ArrowLeftStartOnRectangleIcon, HomeIcon 
+    UsersIcon, ArrowLeftStartOnRectangleIcon, HomeIcon,
+    ChartBarIcon // নতুন আইকন
 } from "@heroicons/react/24/solid";
 
 const Aside = () => {
@@ -17,10 +18,12 @@ const Aside = () => {
   };
 
   const navLinks = [
-    { name: "Home", path: "/", icon: <HomeIcon className="h-5 w-5" />, show: true }, // মেইন নেভিগেশন
+    { name: "Home", path: "/", icon: <HomeIcon className="h-5 w-5" />, show: true },
     { name: "Dashboard", path: "/dashboard", icon: <Squares2X2Icon className="h-5 w-5" />, show: true },
-    { name: "My Request", path: "/dashboard/my-request", icon: <ClipboardDocumentListIcon className="h-5 w-5" />, show: role === "donor" },
-    { name: "Add Request", path: "/dashboard/add-request", icon: <PlusIcon className="h-5 w-5" />, show: role === "donor" },
+    // শুধুমাত্র অ্যাডমিনদের জন্য অ্যাডমিন হোম লিঙ্ক
+    { name: "Admin Home", path: "/dashboard/admin-home", icon: <ChartBarIcon className="h-5 w-5" />, show: role === "admin" },
+    { name: "My Request", path: "/dashboard/my-request", icon: <ClipboardDocumentListIcon className="h-5 w-5" />, show: role === "donor" || role === "admin" },
+    { name: "Add Request", path: "/dashboard/add-request", icon: <PlusIcon className="h-5 w-5" />, show: role === "donor" || role === "admin" },
     { name: "All Users", path: "/dashboard/all-users", icon: <UsersIcon className="h-5 w-5" />, show: role === "admin" },
   ];
 
