@@ -1,6 +1,6 @@
 # 🩸 Blood Donation Application
 
-### 🔗 [Live Site Link](https://blood-donation-project-mongodb.web.app/) | [Server Repository](https://github.com/your-username/server-repo)
+### 🔗 [Live Site Link](https://blood-donation-project-mongodb.web.app/)
 
 ---
 
