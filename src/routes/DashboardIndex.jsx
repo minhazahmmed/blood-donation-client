@@ -6,7 +6,7 @@ import MainDashboard from "../Pages/Dashboard/MainDashboard/MainDashboard";
 const DashboardIndex = () => {
     const { role, loading } = useContext(AuthContext);
 
-    // ডাটা লোড হওয়ার সময় একটি লোডিং স্পিনার বা টেক্সট দেখানো জরুরি
+    // ডাটা লোড হওয়ার সময় একটি লোডিং স্পিনার দেখানো হচ্ছে
     if (loading) {
         return (
             <div className="min-h-[60vh] flex items-center justify-center">
@@ -15,9 +15,14 @@ const DashboardIndex = () => {
         );
     }
 
-    // এডমিন বা ভলান্টিয়ার হলে Admin Home এ পাঠাবে
-    if (role === "admin" || role === "volunteer") {
+    // এডমিন হলে Admin Home এ পাঠাবে
+    if (role === "admin") {
         return <Navigate to="/dashboard/admin-home" replace />;
+    }
+
+    // ভলান্টিয়ার হলে Volunteer Home এ পাঠাবে (নতুন আপডেট)
+    if (role === "volunteer") {
+        return <Navigate to="/dashboard/volunteer-home" replace />;
     }
 
     // সাধারণ ডোনার হলে সরাসরি Main Dashboard (Status overview) দেখাবে

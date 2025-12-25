@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router"; // NavLink ব্যবহার করা হয়েছে অ্যাক্টিভ স্টাইলের জন্য
 import { AuthContext } from "../../Provider/AuthProvider";
 import { signOut } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
@@ -18,10 +18,14 @@ const Navbar = () => {
 
   const navLinks = (
     <>
-      <li><Link to="/" className="text-[16px] font-semibold hover:text-red-600">Home</Link></li>
-      <li><Link to="/donation-requests" className="text-[16px] font-semibold hover:text-red-600">Donation Requests</Link></li>
-      <li><Link to="/search" className="text-[16px] font-semibold hover:text-red-600">Search Donors</Link></li>
-      {user && <li><Link to="/donate" className="text-[16px] font-semibold hover:text-red-600">Funding</Link></li>}
+      <li><NavLink to="/" className="text-[16px] font-semibold hover:text-red-600">Home</NavLink></li>
+      <li><NavLink to="/donation-requests" className="text-[16px] font-semibold hover:text-red-600">Donation Requests</NavLink></li>
+      
+      {/* নতুন যুক্ত করা ব্লগ লিঙ্ক */}
+      <li><NavLink to="/blogs" className="text-[16px] font-semibold hover:text-red-600">Blogs</NavLink></li>
+      
+      <li><NavLink to="/search" className="text-[16px] font-semibold hover:text-red-600">Search Donors</NavLink></li>
+      {user && <li><NavLink to="/donate" className="text-[16px] font-semibold hover:text-red-600">Funding</NavLink></li>}
     </>
   );
 
@@ -35,7 +39,7 @@ const Navbar = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </label>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52">
+          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             {navLinks}
           </ul>
         </div>
@@ -67,22 +71,21 @@ const Navbar = () => {
                 <img src={user?.photoURL || "https://i.ibb.co/mJR6S7q/default-user.png"} alt="User Profile" />
               </div>
             </label>
-            <ul tabIndex={0} className="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-gray-100">
-  <li className="px-4 py-2 font-bold text-red-600 border-b border-gray-100 mb-1">
-    {user?.displayName || "User"}
-  </li>
-  <li><Link to="/dashboard">Dashboard</Link></li>
-  {/* নতুন বাটন */}
-  <li><Link to="/dashboard/profile">Update Profile</Link></li> 
-  <li><button onClick={handleLogout} className="text-red-500">Logout</button></li>
-</ul>
+            <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-gray-100">
+              <li className="px-4 py-2 font-bold text-red-600 border-b border-gray-100 mb-1 text-center sm:text-left">
+                {user?.displayName || "User"}
+              </li>
+              <li><Link to="/dashboard">Dashboard</Link></li>
+              <li><Link to="/dashboard/profile">Update Profile</Link></li> 
+              <li><button onClick={handleLogout} className="text-red-500 hover:bg-red-50">Logout</button></li>
+            </ul>
           </div>
         ) : (
           <div className="flex gap-3">
             <Link to="/login" className="btn btn-ghost btn-md text-red-700 border-red-700 hover:bg-red-50 hidden sm:flex">
               Login
             </Link>
-            <Link to="/register" className="btn btn-error btn-md text-white bg-red-700 hover:bg-red-800">
+            <Link to="/register" className="btn btn-error btn-md text-white bg-red-700 hover:bg-red-800 border-none">
               Join Now
             </Link>
           </div>

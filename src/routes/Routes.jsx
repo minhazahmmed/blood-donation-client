@@ -4,7 +4,8 @@ import RootLayout from "../RootLayout/RootLayout";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import DashBoardLayout from "../Dashboard Layout/DashBoardLayout";
-import AdminHome from "../Pages/Dashboard/AdminHome/AdminHome"; 
+import AdminHome from "../Pages/Dashboard/AdminHome/AdminHome";
+
 import AddRequest from "../Pages/Dashboard/AddRequest/AddRequest";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import PrivateRoute from "./PrivateRoute";
@@ -18,8 +19,10 @@ import RequestDetails from "../Pages/RequestDetails/RequestDetails";
 import UpdateProfile from "../Pages/UpdateProfile/UpdateProfile";
 import AllDonationRequests from "../Pages/Dashboard/AllDonationRequests/AllDonationRequests";
 import DashboardIndex from "./DashboardIndex";
-import ContentManagement from "../Pages/Dashboard/ContentManagement/ContentManagement"; // New
-import AddBlog from "../Pages/Dashboard/ContentManagement/AddBlog"; // New
+import ContentManagement from "../Pages/Dashboard/ContentManagement/ContentManagement"; 
+import AddBlog from "../Pages/Dashboard/ContentManagement/AddBlog"; 
+import Blogs from "../Pages/Blogs/Blogs";
+import VolunteerHome from "../Pages/Dashboard/VolunteerHome/VolunteerHome";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +32,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
+      { path: "/blogs", element: <Blogs /> }, 
       {
         path: "/donate",
         element: (
@@ -59,14 +63,14 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { index: true, element: <DashboardIndex /> },
+      { index: true, element: <DashboardIndex /> }, 
       { path: "admin-home", element: <AdminHome /> },
+      { path: "volunteer-home", element: <VolunteerHome /> },
       { path: "all-donation-requests", element: <AllDonationRequests /> },
       { path: "add-request", element: <AddRequest /> },
       { path: "all-users", element: <AllUsers /> },
       { path: "my-request", element: <MyRequest /> },
       { path: "profile", element: <UpdateProfile /> },
-      // --- Admin/Volunteer Content Management Routes ---
       { path: "content-management", element: <ContentManagement /> },
       { path: "content-management/add-blog", element: <AddBlog /> },
     ],

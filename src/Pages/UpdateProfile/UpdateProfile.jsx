@@ -70,12 +70,12 @@ const UpdateProfile = () => {
             const res = await axiosSecure.patch(`/user/update/${user?.email}`, updatedDoc);
             
             // ৩. লোকাল স্টেট আপডেট (সফলভাবে ডাটাবেজ আপডেট হওয়ার পর)
-            if (res.data.modifiedCount > 0 || res.data.matchedCount > 0) {
-                setUser((prevUser) => ({
-                    ...prevUser,
-                    displayName: data.name,
-                    photoURL: photoURL
-                }));
+          if (res.data.modifiedCount > 0 || res.data.matchedCount > 0) {
+    setUser({
+        ...user,
+        displayName: updatedDoc.name,
+        photoURL: updatedDoc.photoURL
+    });
 
                 Swal.fire({
                     icon: "success",
