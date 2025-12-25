@@ -18,7 +18,8 @@ import RequestDetails from "../Pages/RequestDetails/RequestDetails";
 import UpdateProfile from "../Pages/UpdateProfile/UpdateProfile";
 import AllDonationRequests from "../Pages/Dashboard/AllDonationRequests/AllDonationRequests";
 import DashboardIndex from "./DashboardIndex";
-
+import ContentManagement from "../Pages/Dashboard/ContentManagement/ContentManagement"; // New
+import AddBlog from "../Pages/Dashboard/ContentManagement/AddBlog"; // New
 
 const router = createBrowserRouter([
   {
@@ -58,34 +59,16 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      {
-        index: true, 
-        element: <DashboardIndex />, 
-      },
-      {
-        path: "admin-home",
-        element: <AdminHome />,
-      },
-      {
-        path: "all-donation-requests",
-        element: <AllDonationRequests />,
-      },
-      {
-        path: "add-request",
-        element: <AddRequest />,
-      },
-      {
-        path: "all-users",
-        element: <AllUsers />,
-      },
-      {
-        path: "my-request",
-        element: <MyRequest />,
-      },
-      {
-        path: "profile",
-        element: <UpdateProfile />,
-      },
+      { index: true, element: <DashboardIndex /> },
+      { path: "admin-home", element: <AdminHome /> },
+      { path: "all-donation-requests", element: <AllDonationRequests /> },
+      { path: "add-request", element: <AddRequest /> },
+      { path: "all-users", element: <AllUsers /> },
+      { path: "my-request", element: <MyRequest /> },
+      { path: "profile", element: <UpdateProfile /> },
+      // --- Admin/Volunteer Content Management Routes ---
+      { path: "content-management", element: <ContentManagement /> },
+      { path: "content-management/add-blog", element: <AddBlog /> },
     ],
   },
 ]);

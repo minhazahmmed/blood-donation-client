@@ -1,16 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { toast, ToastContainer } from "react-toastify";
-import { AuthContext } from "../../../Provider/AuthProvider"; // AuthContext ইমপোর্ট করুন নিজের ইমেইল চেক করার জন্য
+import { AuthContext } from "../../../Provider/AuthProvider";
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
-  const { user: currentUser } = useContext(AuthContext); // বর্তমান লগইন করা অ্যাডমিন
+  const { user: currentUser } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // লোডিং স্টেট
 
   const fetchUsers = () => {
+    setIsLoading(true); // ফেচ করার আগে ট্রু হবে
     axiosSecure.get("/users").then((res) => {
       setUsers(res.data);
+      setIsLoading(false); // ডাটা চলে আসলে ফলস হবে
     });
   };
 
@@ -54,6 +57,15 @@ const AllUsers = () => {
       });
   };
 
+  // যদি ডাটা লোড হতে থাকে, তবে এই সেকশনটি দেখাবে
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        <span className="loading loading-bars loading-xl text-red-600"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="p-5">
       <div className="overflow-x-auto bg-white rounded-lg shadow-md">
@@ -83,7 +95,6 @@ const AllUsers = () => {
                   </div>
                 </td>
                 
-                {/* রোল পরিবর্তন ড্রপডাউন */}
                 <td>
                   <select
                     disabled={user?.email === currentUser?.email}

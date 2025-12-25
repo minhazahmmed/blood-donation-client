@@ -12,54 +12,54 @@ const AddRequest = () => {
   const [districts, setDistricts] = useState([]);
   const [district, setDistrict] = useState("");
   const [upazila, setUpazila] = useState("");
+  const [isDataLoading, setIsDataLoading] = useState(true); // প্রাথমিক ডাটা লোডিং
+  const [isSubmitting, setIsSubmitting] = useState(false); // ফর্ম সাবমিট লোডিং
 
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axios.get("/upazila.json").then((res) => {
-      setUpazilas(res.data.upazilas);
-    });
-
-    axios.get("/district.json").then((res) => {
-      setDistricts(res.data.districts);
-    });
+    // ডিস্ট্রিক্ট এবং উপজেলা লোড করা
+    const fetchData = async () => {
+      try {
+        const [upazilaRes, districtRes] = await Promise.all([
+          axios.get("/upazila.json"),
+          axios.get("/district.json")
+        ]);
+        setUpazilas(upazilaRes.data.upazilas);
+        setDistricts(districtRes.data.districts);
+        setIsDataLoading(false);
+      } catch (err) {
+        console.error("Error loading location data", err);
+        setIsDataLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   const handleRequest = (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // সাবমিট শুরু
+    
     const form = e.target;
-
-    const requester_name = form.requester_name.value;
-    const requester_email = form.requester_email.value;
-    const recipientName = form.recipientName.value;
-    const recipient_district = district;
-    const recipient_upazila = upazila;
-    const hospitalName = form.hospitalName.value;
-    const fullAddress = form.fullAddress.value;
-    const bloodGroup = form.bloodGroup.value;
-
-    const donationDate = form.donationDate.value;
-    const donationTime = form.donationTime.value;
-    const requestMessage = form.requestMessage.value;
-
     const formData = {
-      requester_name,
-      requester_email,
-      recipientName,
-      recipient_district,
-      recipient_upazila,
-      hospitalName,
-      fullAddress,
-      bloodGroup,
-      donationDate,
-      donationTime,
-      requestMessage,
+      requester_name: form.requester_name.value,
+      requester_email: form.requester_email.value,
+      recipientName: form.recipientName.value,
+      recipient_district: district,
+      recipient_upazila: upazila,
+      hospitalName: form.hospitalName.value,
+      fullAddress: form.fullAddress.value,
+      bloodGroup: form.bloodGroup.value,
+      donationDate: form.donationDate.value,
+      donationTime: form.donationTime.value,
+      requestMessage: form.requestMessage.value,
       donation_status: "pending",
     };
 
     axiosSecure
       .post("/requests", formData)
       .then((res) => {
+        setIsSubmitting(false); // সাবমিট শেষ
         if (res.data.insertedId) {
           Swal.fire({
             title: "Success!",
@@ -74,6 +74,7 @@ const AddRequest = () => {
         }
       })
       .catch((err) => {
+        setIsSubmitting(false);
         console.log(err);
         Swal.fire({
           title: "Error!",
@@ -83,6 +84,15 @@ const AddRequest = () => {
         });
       });
   };
+
+  // প্রাথমিক ডাটা লোড হওয়ার সময় লোডার
+  if (isDataLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        <span className="loading loading-bars loading-xl text-red-600"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-8">
@@ -111,14 +121,14 @@ const AddRequest = () => {
 
           <div className="flex flex-col">
             <label className="text-gray-700 text-sm font-medium mb-1">Recipient Name</label>
-            <input type="text" name="recipientName" required
+            <input type="text" name="recipientName" required disabled={isSubmitting}
               className="w-full p-2.5 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm font-['Inter']" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="flex flex-col">
               <label className="text-gray-700 text-sm font-medium mb-1">District</label>
-              <select value={district} onChange={(e) => setDistrict(e.target.value)} required
+              <select value={district} onChange={(e) => setDistrict(e.target.value)} required disabled={isSubmitting}
                 className="w-full p-2.5 rounded-lg border border-gray-300 focus:border-red-500 text-sm font-['Inter']">
                 <option value="" disabled>Select District</option>
                 {districts.map((d) => <option key={d.id} value={d.name}>{d.name}</option>)}
@@ -126,7 +136,7 @@ const AddRequest = () => {
             </div>
             <div className="flex flex-col">
               <label className="text-gray-700 text-sm font-medium mb-1">Upazila</label>
-              <select value={upazila} onChange={(e) => setUpazila(e.target.value)} required
+              <select value={upazila} onChange={(e) => setUpazila(e.target.value)} required disabled={isSubmitting}
                 className="w-full p-2.5 rounded-lg border border-gray-300 focus:border-red-500 text-sm font-['Inter']">
                 <option value="" disabled>Select Upazila</option>
                 {upazilas.map((u) => <option key={u?.id} value={u?.name}>{u?.name}</option>)}
@@ -134,22 +144,23 @@ const AddRequest = () => {
             </div>
           </div>
 
+          {/* ... Other inputs remain same ... */}
           <div className="flex flex-col">
             <label className="text-gray-700 text-sm font-medium mb-1">Hospital Name</label>
-            <input type="text" name="hospitalName" required
+            <input type="text" name="hospitalName" required disabled={isSubmitting}
               className="w-full p-2.5 rounded-lg border border-gray-300 focus:border-red-500 text-sm font-['Inter']" />
           </div>
 
           <div className="flex flex-col">
             <label className="text-gray-700 text-sm font-medium mb-1">Full Address</label>
-            <input type="text" name="fullAddress" required placeholder="Ex: Zahir Raihan Rd, Dhaka"
+            <input type="text" name="fullAddress" required disabled={isSubmitting} placeholder="Ex: Zahir Raihan Rd, Dhaka"
               className="w-full p-2.5 rounded-lg border border-gray-300 focus:border-red-500 text-sm font-['Inter']" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="flex flex-col">
               <label className="text-gray-700 text-sm font-medium mb-1">Blood Group</label>
-              <select name="bloodGroup" required className="w-full p-2.5 rounded-lg border border-gray-300 focus:border-red-500 text-sm font-['Inter']">
+              <select name="bloodGroup" required disabled={isSubmitting} className="w-full p-2.5 rounded-lg border border-gray-300 focus:border-red-500 text-sm font-['Inter']">
                 <option value="">Select</option>
                 <option value="A+">A+</option><option value="A-">A-</option>
                 <option value="B+">B+</option><option value="B-">B-</option>
@@ -159,22 +170,30 @@ const AddRequest = () => {
             </div>
             <div className="flex flex-col">
               <label className="text-gray-700 text-sm font-medium mb-1">Date</label>
-              <input type="date" name="donationDate" required className="w-full p-2.5 rounded-lg border border-gray-300 text-sm font-['Inter']" />
+              <input type="date" name="donationDate" required disabled={isSubmitting} className="w-full p-2.5 rounded-lg border border-gray-300 text-sm font-['Inter']" />
             </div>
             <div className="flex flex-col">
               <label className="text-gray-700 text-sm font-medium mb-1">Time</label>
-              <input type="time" name="donationTime" required className="w-full p-2.5 rounded-lg border border-gray-300 text-sm font-['Inter']" />
+              <input type="time" name="donationTime" required disabled={isSubmitting} className="w-full p-2.5 rounded-lg border border-gray-300 text-sm font-['Inter']" />
             </div>
           </div>
 
           <div className="flex flex-col">
             <label className="text-gray-700 text-sm font-medium mb-1">Request Message</label>
-            <textarea name="requestMessage" required rows="3" placeholder="Explain why blood is needed"
+            <textarea name="requestMessage" required rows="3" disabled={isSubmitting} placeholder="Explain why blood is needed"
               className="w-full p-2.5 rounded-lg border border-gray-300 focus:border-red-500 text-sm font-['Inter']"></textarea>
           </div>
 
-          <button type="submit" className="w-full py-3.5 bg-red-700 hover:bg-rose-600 text-white rounded-xl font-bold text-base sm:text-lg shadow-md transition-all font-['Inter']">
-            Request Blood
+          <button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="w-full py-3.5 bg-red-700 hover:bg-rose-600 text-white rounded-xl font-bold text-base sm:text-lg shadow-md transition-all font-['Inter'] disabled:bg-gray-400 flex justify-center items-center"
+          >
+            {isSubmitting ? (
+              <span className="loading loading-spinner loading-md"></span>
+            ) : (
+              "Request Blood"
+            )}
           </button>
         </form>
       </div>
