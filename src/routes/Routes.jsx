@@ -87,7 +87,7 @@ const router = createBrowserRouter([
   loader: async ({ params }) => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/request/${params.id}`);
     const data = await res.json();
-    console.log("Loader Data:", data); // এটি চেক করবেন কনসোলে
+    // console.log("Loader Data:", data);
     return data;
   }
 }

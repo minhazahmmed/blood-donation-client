@@ -83,7 +83,12 @@ const MainDashboard = () => {
                                             </span>
                                         </td>
                                         <td>
-                                            <Link to={`/dashboard/request-details/${req._id}`} className="btn btn-ghost btn-xs sm:btn-sm text-red-700 uppercase underline font-semibold">Details</Link>
+                                             <Link 
+                                                   to={`/dashboard/update-my-request/${req._id}`}
+                                                   className="btn btn-ghost btn-xs sm:btn-sm text-blue-600 font-semibold hover:bg-blue-50 rounded-lg"
+                                               >
+                                                   EDIT
+                                               </Link>
                                         </td>
                                     </tr>
                                 ))

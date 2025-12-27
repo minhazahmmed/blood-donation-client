@@ -18,7 +18,7 @@ const PaymentSuccess = () => {
 
         axiosInstance.post(`/success-payment?session_id=${sessionId}`)
             .then(res => {
-                console.log("Payment recorded:", res.data);
+                // console.log("Payment recorded:", res.data);
                 setProcessing(false);
             })
             .catch(err => {
