@@ -47,11 +47,7 @@ const Blogs = () => {
                                     alt="blog" 
                                     className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-110" 
                                 />
-                                <div className="absolute top-4 left-4">
-                                    <span className="bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded-lg uppercase shadow-lg">
-                                        Donor Info
-                                    </span>
-                                </div>
+                              
                             </figure>
                             <div className="card-body p-6">
                                 <h2 className="text-xl font-bold text-gray-800 mb-2 line-clamp-1 group-hover:text-red-600 transition-colors">

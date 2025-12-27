@@ -23,6 +23,8 @@ import ContentManagement from "../Pages/Dashboard/ContentManagement/ContentManag
 import AddBlog from "../Pages/Dashboard/ContentManagement/AddBlog"; 
 import Blogs from "../Pages/Blogs/Blogs";
 import VolunteerHome from "../Pages/Dashboard/VolunteerHome/VolunteerHome";
+import UpdateDonationRequest from "../Pages/DonationRequests/UpdateDonationRequest";
+import UpdateUserRequest from "../Pages/Dashboard/UpdateUserRequest";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +75,22 @@ const router = createBrowserRouter([
       { path: "profile", element: <UpdateProfile /> },
       { path: "content-management", element: <ContentManagement /> },
       { path: "content-management/add-blog", element: <AddBlog /> },
+      {
+        path: "update-my-request/:id",
+        element: <UpdateUserRequest />,
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/request/${params.id}`) 
+     
+      },
+{
+  path: "update-request/:id",
+  element: <UpdateDonationRequest />,
+  loader: async ({ params }) => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/request/${params.id}`);
+    const data = await res.json();
+    console.log("Loader Data:", data); // এটি চেক করবেন কনসোলে
+    return data;
+  }
+}
     ],
   },
 ]);

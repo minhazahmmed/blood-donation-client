@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Link } from "react-router";
 
 const MyRequest = () => {
     const [totalRequest, setTotalRequest] = useState(0);
@@ -84,8 +85,13 @@ const MyRequest = () => {
                                             </span>
                                         </td>
                                         <td>
-                                            <button className="btn btn-ghost btn-xs sm:btn-sm text-red-700 font-semibold hover:bg-red-100 rounded-lg">EDIT</button>
-                                        </td>
+    <Link 
+        to={`/dashboard/update-my-request/${req._id}`}
+        className="btn btn-ghost btn-xs sm:btn-sm text-blue-600 font-semibold hover:bg-blue-50 rounded-lg"
+    >
+        EDIT
+    </Link>
+</td>
                                     </tr>
                                 ))
                             ) : (
