@@ -58,7 +58,7 @@ const Login = () => {
 
   return (
      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-red-50 via-rose-100 to-red-200 px-4">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-red-200">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-red-200 my-5">
 
         {/* ===== Header (Register SS Style) ===== */}
     <div className="bg-linear-to-r from-red-600 to-rose-500 text-white text-center py-6 rounded-t-3xl">
