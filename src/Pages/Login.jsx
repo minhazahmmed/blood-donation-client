@@ -5,8 +5,10 @@ import { AuthContext } from "../Provider/AuthProvider";
 import { FcGoogle } from "react-icons/fc";
 import { toast, ToastContainer } from "react-toastify";
 import { FaEye, FaEyeSlash, FaTint } from "react-icons/fa";
+import useAxios from "../hooks/useAxios";
 
 const Login = () => {
+    const axiosPublic = useAxios();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
 
@@ -37,20 +39,33 @@ const Login = () => {
       });
   };
 
-   const handleGoogleSignin = () => {
-     googleSignin()
-       .then((result) => {
-         setUser(result.user);
-         toast.success("Login successful 🩸", {
-           position: "bottom-right",
-         });
-       })
-       .catch(() => {
-         toast.error("Login failed", {
-           position: "bottom-right",
-        });
-       });
-   };
+const handleGoogleSignin = () => {
+  googleSignin()
+    .then(async (result) => {
+      const user = result.user;
+      
+      const userInfo = {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL, 
+        blood: "", 
+        district: "",
+        upazila: "",
+      };
+
+      try {
+   
+        const res = await axiosPublic.post("/users", userInfo);
+        if(res.data.insertedId || res.data.message === "User exists") {
+             setUser(user);
+             toast.success("Login successful 🩸");
+             navigate(location.state ? location.state : "/");
+        }
+      } catch (err) {
+        console.error("Sync error:", err);
+      }
+    });
+};
 
   const handleForget = () => {
     navigate(`/forget/${email}`);
