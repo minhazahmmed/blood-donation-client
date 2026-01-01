@@ -3,7 +3,7 @@ import useAxios from '../../hooks/useAxios';
 
 const Blogs = () => {
     const [blogs, setBlogs] = useState([]);
-    const [selectedBlog, setSelectedBlog] = useState(null); // মোডালের জন্য
+    const [selectedBlog, setSelectedBlog] = useState(null); 
     const [loading, setLoading] = useState(true);
     const axiosInstance = useAxios();
 
@@ -11,7 +11,7 @@ const Blogs = () => {
         setLoading(true);
         axiosInstance.get('/all-blogs')
             .then(res => {
-                // শুধুমাত্র published স্ট্যাটাস ওয়ালা ব্লগগুলো ফেচ করা
+             
                 const publishedBlogs = res.data.filter(blog => blog.status === 'published');
                 setBlogs(publishedBlogs);
                 setLoading(false);

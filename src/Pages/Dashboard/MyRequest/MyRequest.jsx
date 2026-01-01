@@ -6,17 +6,17 @@ const MyRequest = () => {
     const [totalRequest, setTotalRequest] = useState(0);
     const [myRequests, setMyRequests] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [isLoading, setIsLoading] = useState(true); // লোডিং স্টেট
+    const [isLoading, setIsLoading] = useState(true); 
     const itemPerPage = 5;
     const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        setIsLoading(true); // রিকোয়েস্ট শুরু হলে লোডিং ট্রু
+        setIsLoading(true); 
         axiosSecure.get(`/my-request?page=${currentPage - 1}&size=${itemPerPage}`)
             .then((res) => {
                 setMyRequests(res.data.request);
                 setTotalRequest(res.data.totalRequest);
-                setIsLoading(false); // ডাটা চলে আসলে লোডিং ফলস
+                setIsLoading(false); 
             })
             .catch(err => {
                 console.error(err);
@@ -35,7 +35,6 @@ const MyRequest = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
 
-    // লোডিং অবস্থায় এই UI দেখাবে
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-[400px]">

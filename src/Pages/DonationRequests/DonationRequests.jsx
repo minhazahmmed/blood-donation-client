@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-import axios from 'axios';
+
 import { FaLocationDot } from "react-icons/fa6";
 import { FcAlarmClock } from "react-icons/fc";
+import useAxios from '../../hooks/useAxios';
 
 const DonationRequests = () => {
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
+    const axiosPublic = useAxios();
 
     useEffect(() => {
         
-        axios.get(`${import.meta.env.VITE_API_URL}/all-pending-requests`)
+        axiosPublic.get('/all-pending-requests')
             .then(res => {
                 setRequests(res.data);
                 setLoading(false);
             })
             .catch(err => console.error(err));
-    }, []);
+    }, [axiosPublic]);
 
     if (loading) return <div className="min-h-screen flex justify-center items-center"><span className="loading loading-bars loading-lg text-red-700"></span></div>;
 

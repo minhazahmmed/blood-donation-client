@@ -54,15 +54,15 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  // এই ফাংশনটি ইউজার ডাটাবেজ থেকে রোল এবং স্ট্যাটাস আনবে
+ 
   const fetchUserInfo = async (email) => {
     try {
       setRoleLoading(true);
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/users/role/${email}`
       );
-      setRole(res.data.role || "donor"); // ডিফল্ট ভ্যালু হিসেবে donor সেট করা
-      setUserStatus(res.data.status || "active"); // ডিফল্ট ভ্যালু হিসেবে active সেট করা
+      setRole(res.data.role || "donor"); 
+      setUserStatus(res.data.status || "active"); 
     } catch (error) {
       console.error("User info fetch error", error);
     } finally {
@@ -75,7 +75,7 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
 
       if (currentUser?.email) {
-        // ডাটাবেজ থেকে রোল ও স্ট্যাটাস ফেচ করা
+     
         await fetchUserInfo(currentUser.email);
       } else {
         setRole("");
@@ -100,7 +100,7 @@ const AuthProvider = ({ children }) => {
     logOut,
     setUser,
     updateUserProfile,
-    fetchUserInfo, // এটি এক্সপোর্ট করা হলো যাতে রেজিস্টার পেজ থেকে সরাসরি কল করা যায়
+    fetchUserInfo,  
   };
 
   return (

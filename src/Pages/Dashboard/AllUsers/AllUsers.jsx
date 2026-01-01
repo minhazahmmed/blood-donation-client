@@ -7,13 +7,12 @@ const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
   const { user: currentUser } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // লোডিং স্টেট
-
+  const [isLoading, setIsLoading] = useState(true); 
   const fetchUsers = () => {
-    setIsLoading(true); // ফেচ করার আগে ট্রু হবে
+    setIsLoading(true);
     axiosSecure.get("/users").then((res) => {
       setUsers(res.data);
-      setIsLoading(false); // ডাটা চলে আসলে ফলস হবে
+      setIsLoading(false); 
     });
   };
 
@@ -21,7 +20,7 @@ const AllUsers = () => {
     fetchUsers();
   }, []);
 
-  // স্ট্যাটাস পরিবর্তনের হ্যান্ডলার (Block/Unblock)
+ 
   const handleStatusChange = (email, status) => {
     if (email === currentUser?.email) {
       return toast.error("You cannot block yourself!");
@@ -39,7 +38,7 @@ const AllUsers = () => {
       });
   };
 
-  // রোল পরিবর্তনের হ্যান্ডলার (Admin/Volunteer/Donor)
+
   const handleRoleChange = (email, newRole) => {
     if (email === currentUser?.email) {
       return toast.error("You cannot change your own role!");
@@ -57,7 +56,6 @@ const AllUsers = () => {
       });
   };
 
-  // যদি ডাটা লোড হতে থাকে, তবে এই সেকশনটি দেখাবে
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">

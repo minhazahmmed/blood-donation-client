@@ -1,6 +1,6 @@
 /* eslint-disable no-irregular-whitespace */
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router"; // useLocation, useNavigate যোগ করা হয়েছে
+import { Link, useLocation, useNavigate } from "react-router"; 
 import { AuthContext } from "../Provider/AuthProvider";
 import { updateProfile } from "firebase/auth";
 import auth from "../firebase/firebase.config";
@@ -16,13 +16,13 @@ const Register = () => {
   const [district, setDistrict] = useState("");
   const [upazila, setUpazila] = useState("");
 
-  // fetchUserInfo যোগ করা হয়েছে যা AuthProvider থেকে আসবে
+ 
   const { registerWithEmailPassword, setUser, fetchUserInfo } = useContext(AuthContext);
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  // যদি state এ গন্তব্য থাকে তবে সেখানে যাবে, নাহলে সরাসরি হোমে ("/")
+ 
   const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
@@ -97,8 +97,7 @@ const Register = () => {
       // Save to Database
       await axios.post(`${import.meta.env.VITE_API_URL}/users`, formData);
 
-      // গুরুত্বপুর্ণ: ডাটাবেজে সেভ হওয়ার পর পরই রোল ও স্ট্যাটাস ফেচ করা
-      // এতে রিডাইরেক্ট হওয়ার সাথে সাথে ইউজার ভিউ ডিটেইলস দেখতে পাবে
+   
       if (fetchUserInfo) {
         await fetchUserInfo(email);
       }
@@ -107,7 +106,7 @@ const Register = () => {
         position: "bottom-right",
       });
 
-      // রেজিস্ট্রেশন এবং ডাটা ফেচ শেষ হলে রিডাইরেক্ট
+  
       navigate(from, { replace: true });
 
     } catch (error) {

@@ -12,13 +12,13 @@ const AddRequest = () => {
   const [districts, setDistricts] = useState([]);
   const [district, setDistrict] = useState("");
   const [upazila, setUpazila] = useState("");
-  const [isDataLoading, setIsDataLoading] = useState(true); // প্রাথমিক ডাটা লোডিং
-  const [isSubmitting, setIsSubmitting] = useState(false); // ফর্ম সাবমিট লোডিং
+  const [isDataLoading, setIsDataLoading] = useState(true); 
+  const [isSubmitting, setIsSubmitting] = useState(false); 
 
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    // ডিস্ট্রিক্ট এবং উপজেলা লোড করা
+ 
     const fetchData = async () => {
       try {
         const [upazilaRes, districtRes] = await Promise.all([
@@ -38,7 +38,7 @@ const AddRequest = () => {
 
   const handleRequest = (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // সাবমিট শুরু
+    setIsSubmitting(true); 
     
     const form = e.target;
     const formData = {
@@ -59,7 +59,7 @@ const AddRequest = () => {
     axiosSecure
       .post("/requests", formData)
       .then((res) => {
-        setIsSubmitting(false); // সাবমিট শেষ
+        setIsSubmitting(false); 
         if (res.data.insertedId) {
           Swal.fire({
             title: "Success!",
@@ -85,7 +85,7 @@ const AddRequest = () => {
       });
   };
 
-  // প্রাথমিক ডাটা লোড হওয়ার সময় লোডার
+
   if (isDataLoading) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">

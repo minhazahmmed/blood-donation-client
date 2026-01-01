@@ -16,11 +16,10 @@ const UpdateProfile = () => {
     const [upazilas, setUpazilas] = useState([]);
 
     useEffect(() => {
-        // ডিস্ট্রিক্ট এবং উপজেলা লোড করা
+     
         axios.get("/district.json").then((res) => setDistricts(res.data.districts));
         axios.get("/upazila.json").then((res) => setUpazilas(res.data.upazilas));
 
-        // ইউজার ডাটা ফেচ করা
         if (user?.email) {
             setLoading(true);
             axiosSecure.get(`/user/${user?.email}`)
@@ -35,14 +34,14 @@ const UpdateProfile = () => {
                     setLoading(false);
                 });
         }
-    }, [user?.email, axiosSecure, reset]); // dependencies ঠিক করা হয়েছে
+    }, [user?.email, axiosSecure, reset]); 
 
     const onSubmit = async (data) => {
         setIsUpdating(true);
         try {
             let photoURL = data.photoURL; 
 
-            // ইমেজ আপলোড লজিক
+   
             if (data.image && data.image[0]) {
                 const imgData = new FormData();
                 imgData.append("image", data.image[0]);
@@ -55,10 +54,10 @@ const UpdateProfile = () => {
                 }
             }
 
-            // ১. ফায়ারবেজ প্রোফাইল আপডেট
+       
             await updateUserProfile(data.name, photoURL);
             
-            // ২. ব্যাকএন্ড ডাটাবেস আপডেট
+       
             const updatedDoc = {
                 name: data.name,
                 photoURL: photoURL,
@@ -69,7 +68,7 @@ const UpdateProfile = () => {
 
             const res = await axiosSecure.patch(`/user/update/${user?.email}`, updatedDoc);
             
-            // ৩. লোকাল স্টেট আপডেট (সফলভাবে ডাটাবেজ আপডেট হওয়ার পর)
+        
           if (res.data.modifiedCount > 0 || res.data.matchedCount > 0) {
     setUser({
         ...user,

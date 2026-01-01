@@ -18,7 +18,6 @@ const SearchRequest = () => {
         e.preventDefault();
         const bloodGroup = e.target.blood.value;
 
-        // এখানে /search-donors (plural) ব্যবহার করা হয়েছে ব্যাকএন্ডের সাথে মিল রেখে
         axios.get(`${import.meta.env.VITE_API_URL}/search-donors?bloodGroup=${encodeURIComponent(bloodGroup)}&district=${district}&upazila=${upazila}`)
             .then(res => {
                 setDonors(res.data);

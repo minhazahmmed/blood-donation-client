@@ -7,18 +7,18 @@ const PaymentSuccess = () => {
     const [searchParams] = useSearchParams();
     const sessionId = searchParams.get('session_id');
     const axiosInstance = useAxios();
-    const hasCalled = useRef(false); // ডাবল এন্ট্রি রোধ করার জন্য
+    const hasCalled = useRef(false);
     const [processing, setProcessing] = useState(true);
 
     useEffect(() => {
-        // যদি অলরেডি কল হয়ে থাকে অথবা sessionId না থাকে তবে আর কাজ করবে না
+     
         if (hasCalled.current || !sessionId) return;
 
-        hasCalled.current = true; // কল হয়েছে বলে মার্ক করা হলো
+        hasCalled.current = true; 
 
         axiosInstance.post(`/success-payment?session_id=${sessionId}`)
             .then(res => {
-                // console.log("Payment recorded:", res.data);
+            
                 setProcessing(false);
             })
             .catch(err => {

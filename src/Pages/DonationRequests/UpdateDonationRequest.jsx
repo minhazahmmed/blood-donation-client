@@ -15,7 +15,7 @@ const UpdateDonationRequest = () => {
         e.preventDefault();
         const form = e.target;
 
-        // ✅ EXACT MongoDB field names (camelCase)
+  
         const updatedInfo = {
             recipientName: form.recipientName.value,
             hospitalName: form.hospitalName.value,
@@ -30,7 +30,7 @@ const UpdateDonationRequest = () => {
                 return Swal.fire("Unauthorized", "Please login again", "error");
             }
 
-            // ✅ Firebase ID Token
+         
             const token = await user.getIdToken();
 
             const res = await fetch(

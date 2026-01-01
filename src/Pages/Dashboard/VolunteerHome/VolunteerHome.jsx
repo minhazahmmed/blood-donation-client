@@ -25,7 +25,7 @@ const VolunteerHome = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // VolunteerHome.jsx এর useEffect টি এভাবে লিখুন
+ 
   useEffect(() => {
     const fetchStats = async () => {
       try {

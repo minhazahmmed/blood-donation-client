@@ -21,21 +21,21 @@ const Aside = () => {
   const navLinks = [
     { name: "Home", path: "/", icon: <HomeIcon className="h-5 w-5" />, show: true },
     
-    // ডোনারদের জন্য মেইন ড্যাশবোর্ড লিঙ্ক
+  
     { name: "Dashboard", path: "/dashboard", icon: <Squares2X2Icon className="h-5 w-5" />, show: role === "donor" },
 
-    // অ্যাডমিনদের জন্য নির্দিষ্ট লিঙ্কসমূহ
+ 
     { name: "Admin Home", path: "/dashboard/admin-home", icon: <ChartBarIcon className="h-5 w-5" />, show: role === "admin" },
     
-    // ভলান্টিয়ারদের জন্য নির্দিষ্ট লিঙ্ক (নতুন যোগ করা হয়েছে)
+
     { name: "Volunteer Home", path: "/dashboard/volunteer-home", icon: <ChartBarIcon className="h-5 w-5" />, show: role === "volunteer" },
     
     { name: "All Users", path: "/dashboard/all-users", icon: <UsersIcon className="h-5 w-5" />, show: role === "admin" },
     
-    // অ্যাডমিন ও ভলান্টিয়ারদের জন্য
+ 
     { name: "All Donation Request", path: "/dashboard/all-donation-requests", icon: <DocumentTextIcon className="h-5 w-5" />, show: role === "admin" || role === "volunteer" },
 
-    // Content Management (Admin ও Volunteer এর জন্য)
+
     { 
       name: "Content Management", 
       path: "/dashboard/content-management", 
@@ -43,11 +43,11 @@ const Aside = () => {
       show: role === "admin" || role === "volunteer" 
     },
 
-    // শুধুমাত্র ডোনারদের জন্য পার্সোনাল রিকোয়েস্ট ম্যানেজমেন্ট
+
     { name: "My Requests", path: "/dashboard/my-request", icon: <ClipboardDocumentListIcon className="h-5 w-5" />, show: role === "donor" },
     { name: "Add Request", path: "/dashboard/add-request", icon: <PlusIcon className="h-5 w-5" />, show: role === "donor" },
     
-    // সবার জন্য প্রোফাইল লিঙ্ক
+  
     { name: "Profile", path: "/dashboard/profile", icon: <UserCircleIcon className="h-5 w-5" />, show: true },
   ];
 

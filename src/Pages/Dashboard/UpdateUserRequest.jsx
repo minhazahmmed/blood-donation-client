@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const UpdateUserRequest = () => {
-    const requestData = useLoaderData(); // রাউট লোডার থেকে ডাটা নেওয়া
+    const requestData = useLoaderData(); 
     const navigate = useNavigate();
     const axiosSecure = useAxiosSecure();
 
@@ -59,7 +59,7 @@ const UpdateUserRequest = () => {
                     icon: "success",
                     confirmButtonColor: "#b91c1c",
                 });
-                navigate("/dashboard/my-request"); // আপডেট শেষে লিস্টে ফেরত যাওয়া
+                navigate("/dashboard/my-request"); 
             }
         } catch (err) {
             console.error(err);

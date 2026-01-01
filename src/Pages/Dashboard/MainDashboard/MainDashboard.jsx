@@ -6,15 +6,15 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 const MainDashboard = () => {
     const { user } = useContext(AuthContext);
     const [recentRequests, setRecentRequests] = useState([]);
-    const [isLoading, setIsLoading] = useState(true); // লোডিং স্টেট
+    const [isLoading, setIsLoading] = useState(true);  
     const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        setIsLoading(true); // ফেচ করার আগে ট্রু
+        setIsLoading(true);
         axiosSecure.get(`/my-requests-recent`)
             .then(res => {
                 setRecentRequests(res.data);
-                setIsLoading(false); // ডাটা চলে আসলে ফলস
+                setIsLoading(false); 
             })
             .catch(err => {
                 console.error(err);
@@ -22,7 +22,7 @@ const MainDashboard = () => {
             });
     }, [axiosSecure]);
 
-    // যদি ডাটা লোড হতে থাকে, তবে এই অংশটি দেখাবে
+  
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-[400px]">

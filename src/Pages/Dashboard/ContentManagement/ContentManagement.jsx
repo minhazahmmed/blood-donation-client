@@ -154,7 +154,7 @@ const ContentManagement = () => {
                                                         </button>
                                                     </>
                                                 ) : (
-                                                    // ভলান্টিয়ারদের জন্য শুধুমাত্র একটি মেসেজ বা আইকন
+           
                                                     <span className="text-slate-400 text-[12px] font-medium hover:cursor-not-allowed">Read Only</span>
                                                 )}
                                             </div>
