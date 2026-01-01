@@ -78,19 +78,19 @@ const router = createBrowserRouter([
       {
         path: "update-my-request/:id",
         element: <UpdateUserRequest />,
-        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/request/${params.id}`) 
+        
      
       },
-{
-  path: "update-request/:id",
-  element: <UpdateDonationRequest />,
-  loader: async ({ params }) => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/request/${params.id}`);
-    const data = await res.json();
-    // console.log("Loader Data:", data);
-    return data;
-  }
-}
+// {
+//   path: "update-request/:id",
+//   element: <UpdateDonationRequest />,
+//   loader: async ({ params }) => {
+//     const res = await fetch(`${import.meta.env.VITE_API_URL}/request/${params.id}`);
+//     const data = await res.json();
+//     // console.log("Loader Data:", data);
+//     return data;
+//   }
+// }
     ],
   },
 ]);

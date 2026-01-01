@@ -32,7 +32,7 @@ const Blogs = () => {
                 </p>
             </div>
             
-            {/* লোডিং স্টেট */}
+        
             {loading ? (
                 <div className="flex justify-center my-20">
                     <span className="loading loading-spinner loading-lg text-red-600"></span>
@@ -70,7 +70,7 @@ const Blogs = () => {
                 </div>
             )}
 
-            {/* ব্লগের সংখ্যা শূন্য হলে */}
+       
             {!loading && blogs.length === 0 && (
                 <div className="text-center py-20 bg-white rounded-3xl shadow-inner border border-dashed border-gray-200">
                     <p className="text-gray-400 font-medium italic">No blogs published yet. Stay tuned!</p>

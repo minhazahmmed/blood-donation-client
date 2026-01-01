@@ -4,17 +4,20 @@ import axios from 'axios';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
 import { FaLocationDot } from 'react-icons/fa6';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const RequestDetails = () => {
     const { id } = useParams();
     const { user } = useContext(AuthContext);
     const [request, setRequest] = useState(null);
+    const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_API_URL}/request/${id}`)
+       
+        axiosSecure.get(`/request/${id}`)
             .then(res => setRequest(res.data))
             .catch(err => console.error(err));
-    }, [id]);
+    }, [axiosSecure, id]);
 
  const handleDonate = async (e) => {
     e.preventDefault();

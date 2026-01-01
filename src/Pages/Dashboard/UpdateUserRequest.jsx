@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { FaTint } from "react-icons/fa";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const UpdateUserRequest = () => {
-    const requestData = useLoaderData(); 
-    const navigate = useNavigate();
+    const { id } = useParams(); 
+    const [requestData, setRequestData] = useState(null); 
     const axiosSecure = useAxiosSecure();
+  
+    const navigate = useNavigate();
+    
 
     const [upazilas, setUpazilas] = useState([]);
     const [districts, setDistricts] = useState([]);
@@ -17,22 +20,37 @@ const UpdateUserRequest = () => {
     const [upazila, setUpazila] = useState(requestData?.recipient_upazila || "");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [upazilaRes, districtRes] = await Promise.all([
-                    axios.get("/upazila.json"),
-                    axios.get("/district.json")
-                ]);
-                setUpazilas(upazilaRes.data.upazilas);
-                setDistricts(districtRes.data.districts);
-            } catch (err) {
-                console.error("Error loading location data", err);
-            }
-        };
-        fetchData();
-    }, []);
+   useEffect(() => {
+    const fetchData = async () => {
+        try {
+     
+            const [upazilaRes, districtRes] = await Promise.all([
+                axios.get("/upazila.json"),
+                axios.get("/district.json")
+            ]);
+            setUpazilas(upazilaRes.data.upazilas);
+            setDistricts(districtRes.data.districts);
 
+        
+            const res = await axiosSecure.get(`/request/${id}`);
+            setRequestData(res.data);
+         
+            setDistrict(res.data.recipient_district || "");
+            setUpazila(res.data.recipient_upazila || "");
+            
+        } catch (err) {
+            console.error("Error loading data:", err);
+        }
+    };
+
+    if (id) {
+        fetchData();
+    }
+}, [id, axiosSecure]);
+
+    if (!requestData) return  <div className="flex justify-center items-center min-h-[400px]">
+                <span className="loading loading-bars loading-xl text-red-600"></span>
+            </div>;
     const handleUpdate = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);

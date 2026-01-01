@@ -4,6 +4,8 @@ import { getAuth } from "firebase/auth";
 
 const UpdateDonationRequest = () => {
     const requestData = useLoaderData();
+    console.log(requestData)
+  
     const navigate = useNavigate();
     const auth = getAuth();
 
