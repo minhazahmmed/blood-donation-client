@@ -25,11 +25,13 @@ import Blogs from "../Pages/Blogs/Blogs";
 import VolunteerHome from "../Pages/Dashboard/VolunteerHome/VolunteerHome";
 import UpdateDonationRequest from "../Pages/DonationRequests/UpdateDonationRequest";
 import UpdateUserRequest from "../Pages/Dashboard/UpdateUserRequest";
+import ErrorPage from "../Component/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Home /> },
       { path: "/login", element: <Login /> },
@@ -55,6 +57,7 @@ const router = createBrowserRouter([
         ),
       },
       { path: "/donation-requests", element: <DonationRequests /> },
+     
     ],
   },
   {
@@ -64,6 +67,7 @@ const router = createBrowserRouter([
         <DashBoardLayout />
       </PrivateRoute>
     ),
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <DashboardIndex /> }, 
       { path: "admin-home", element: <AdminHome /> },
@@ -78,9 +82,11 @@ const router = createBrowserRouter([
       {
         path: "update-my-request/:id",
         element: <UpdateUserRequest />,
-        
+     
      
       },
+       
+
 // {
 //   path: "update-request/:id",
 //   element: <UpdateDonationRequest />,
@@ -93,6 +99,11 @@ const router = createBrowserRouter([
 // }
     ],
   },
+
+  {
+    path: "*",
+    element: <ErrorPage />
+  }
 ]);
 
 export default router;
