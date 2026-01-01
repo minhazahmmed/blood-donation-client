@@ -1,10 +1,11 @@
 /* eslint-disable no-irregular-whitespace */
 import React, { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 
 const PrivateRoute = ({children}) => {
   const {user, loading, roleLoading, userStatus} = useContext(AuthContext);
+const location = useLocation();
 
   if (loading || roleLoading) {
     return (
@@ -15,7 +16,7 @@ const PrivateRoute = ({children}) => {
   }
 
   if(!user || userStatus !== 'active'){
-    return <Navigate to={'/login'}></Navigate>
+    return <Navigate to={'/login'} state={{ from: location }} replace></Navigate>
   }
   return children;
 };

@@ -8,84 +8,74 @@ import { FaEye, FaEyeSlash, FaTint } from "react-icons/fa";
 import useAxios from "../hooks/useAxios";
 
 const Login = () => {
-    const axiosPublic = useAxios();
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
+  const axiosPublic = useAxios();
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
 
-  //If we add googleSignin, then we add it in below object googleSignin --> niche ei object er moddhe googleSignin likha ta add kore dibo jodi google sign in enable kori
-  const { loginWithEmailPassword, setUser, googleSignin } =
-    useContext(AuthContext);
+  const { loginWithEmailPassword, setUser, googleSignin } =
+    useContext(AuthContext);
 
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+  // ✅ SINGLE SOURCE OF TRUTH
+  const from = location.state?.from?.pathname || "/";
 
-    loginWithEmailPassword(email, password)
-      .then((userCredential) => {
-        setUser(userCredential.user);
-        navigate(location.state ? location.state : "/");
-        toast.success("Login successful 🩸", {
-          position: "bottom-right",
-        });
-      })
-      .catch(() => {
-        toast.error("Invalid credentials", {
-          position: "bottom-right",
-        });
-      });
-  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-const handleGoogleSignin = () => {
-  googleSignin()
-    .then(async (result) => {
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    loginWithEmailPassword(email, password)
+      .then((userCredential) => {
+        setUser(userCredential.user);
+        toast.success("Login successful 🩸");
+        navigate(from, { replace: true }); // ✅ FIXED
+      })
+      .catch(() => {
+        toast.error("Invalid credentials");
+      });
+  };
+
+  const handleGoogleSignin = () => {
+    googleSignin().then(async (result) => {
       const user = result.user;
-      
+
       const userInfo = {
         name: user.displayName,
         email: user.email,
-        photoURL: user.photoURL, 
-        blood: "", 
+        photoURL: user.photoURL,
+        blood: "",
         district: "",
         upazila: "",
       };
 
-      try {
-   
-        const res = await axiosPublic.post("/users", userInfo);
-        if(res.data.insertedId || res.data.message === "User exists") {
-             setUser(user);
-             toast.success("Login successful 🩸");
-             navigate(location.state ? location.state : "/");
-        }
-      } catch (err) {
-        console.error("Sync error:", err);
+      const res = await axiosPublic.post("/users", userInfo);
+
+      if (res.data.insertedId || res.data.message === "User exists") {
+        setUser(user);
+        toast.success("Login successful 🩸");
+        navigate(from, { replace: true }); // ✅ FIXED
       }
     });
-};
+  };
 
-  const handleForget = () => {
-    navigate(`/forget/${email}`);
-  };
+  const handleForget = () => {
+    navigate(`/forget/${email}`);
+  };
 
-  return (
-     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-red-50 via-rose-100 to-red-200 px-4">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-red-200 my-5">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-red-50 via-rose-100 to-red-200 px-4">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-red-200 my-5">
+        <div className="bg-linear-to-r from-red-600 to-rose-500 text-white text-center py-6 rounded-t-3xl">
+          <FaTint className="text-4xl mx-auto mb-2" />
+          <h2 className="text-2xl font-bold">Blood Donation</h2>
+          <p className="text-sm opacity-90">Login to save lives</p>
+        </div>
 
-        {/* ===== Header (Register SS Style) ===== */}
-    <div className="bg-linear-to-r from-red-600 to-rose-500 text-white text-center py-6 rounded-t-3xl">
-            <FaTint className="text-4xl mx-auto mb-2" />
-            <h2 className="text-2xl font-bold">Blood Donation</h2>
-            <p className="text-sm opacity-90">Login to save lives</p>
-          </div>
-
-        {/* ===== Form Body ===== */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-
-          {/* Email */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+           {/* Email */}
           <div>
             <label className="text-sm font-semibold text-red-600">
               Email Address
@@ -133,42 +123,39 @@ const handleGoogleSignin = () => {
             </button>
           </div>
 
-          {/* Login Button */}
-          <button
-            type="submit"
-            className="btn rounded-lg w-full bg-linear-to-r from-red-600 to-rose-500 text-white hover:scale-[1.02] transition"
-          >
-            Login
-          </button>
 
-          <div className="divider text-sm text-gray-400">OR</div>
+          <button
+            type="submit"
+            className="btn w-full bg-linear-to-r from-red-600 to-rose-500 text-white"
+          >
+            Login
+          </button>
 
-{/*           Google */}
-          <button
-            type="button"
-            onClick={handleGoogleSignin}
-            className="btn w-full border border-red-300"
-          >
-            <FcGoogle className="text-xl" /> Continue with Google
-          </button>
+          <div className="divider">OR</div>
 
-          {/* Register */}
-          <p className="text-center text-sm mt-4">
-            Don&apos;t have an account?
-            <Link
-              to="/register"
-              className="text-red-600 font-semibold hover:underline ml-1"
-            >
-              Register
-            </Link>
-          </p>
+          <button
+            type="button"
+            onClick={handleGoogleSignin}
+            className="btn w-full border border-red-300"
+          >
+            <FcGoogle /> Continue with Google
+          </button>
 
-        </form>
-      </div>
-
-      <ToastContainer />
-    </div>
-  );
+          <p className="text-center text-sm mt-4">
+            Don&apos;t have an account?
+            <Link
+              to="/register"
+              state={{ from: location.state?.from }}
+              className="text-red-600 font-semibold ml-1"
+            >
+              Register
+            </Link>
+          </p>
+        </form>
+      </div>
+      <ToastContainer />
+    </div>
+  );
 };
 
 export default Login;
