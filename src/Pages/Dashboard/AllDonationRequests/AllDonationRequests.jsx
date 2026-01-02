@@ -188,7 +188,7 @@ const AllDonationRequests = () => {
 
         {/* Edit */}
         <Link
-          to={`/dashboard/update-request/${req._id}`}
+          to={`/dashboard/update-my-request/${req._id}`}
           title="Edit Request"
           className="p-2 text-slate-400 hover:text-blue-700 
                      hover:bg-blue-50 rounded-xl transition-all"
